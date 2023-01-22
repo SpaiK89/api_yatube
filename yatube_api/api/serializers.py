@@ -20,18 +20,22 @@ class GroupSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'slug', 'description')
 
 class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField(
+        read_only=True, default=serializers.CurrentUserDefault())
+    post = serializers.PrimaryKeyRelatedField(
+        read_only=True, default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Comment
-        fields = ('id', 'author', 'post', 'text', 'created')
+        fields = ('id', 'author', 'post', 'text', 'created', )
 
 class PostSerializer(serializers.ModelSerializer):
-    author = serializers.PrimaryKeyRelatedField(
+    author = serializers.StringRelatedField(
         read_only=True, default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Post
-        fields = ('id', 'text', 'pub_date', 'author', 'image', 'group',)
+        fields = ('id', 'text', 'author', 'image', 'group', 'pub_date', )
 
         # validators = [
         #     UniqueTogetherValidator(

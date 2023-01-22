@@ -21,5 +21,13 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        post_id = self.kwargs.get("post_id")
+        new_queryset = Comment.objects.filter(post=post_id)
+        return new_queryset
+
+    def perform_create(self, serializer):
+        post = Post.objects.get(id=self.kwargs.get("post_id"))
+        serializer.save(author=self.request.user, post=post)
