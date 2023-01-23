@@ -9,7 +9,9 @@ router = DefaultRouter()
 router.register('posts', PostViewSet)
 router.register('users', UserViewSet)
 router.register('groups', GroupViewSet)
-router.register(r'posts/(?P<post_id>\d+)/comments', CommentViewSet, basename='comments')
+router.register(
+    r'posts/(?P<post_id>\d+)/comments', CommentViewSet, basename='comments'
+)
 
 
 urlpatterns = [
